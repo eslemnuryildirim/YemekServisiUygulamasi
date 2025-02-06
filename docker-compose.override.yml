@@ -1,0 +1,24 @@
+services:
+  ecommercedb:
+    container_name: ecommercedb
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=bcA8PhKFzh963dsg
+    restart: always
+    ports:
+      - "1433:1433"
+
+  ecommerce.webapi:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8080
+      - ASPNETCORE_HTTPS_PORTS=8081
+      - ConnectionStrings__Database=Server=ecommercedb;Database=EcommerceDB;User Id=sa;Password=password;Encrypt=False;TrustServerCertificate=True
+    depends_on:
+      - ecommercedb
+    ports:
+      - "6200:8080"
+      - "6250:8081"
+    volumes:
+      - "${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro"
+      - "${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro"

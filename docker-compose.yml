@@ -1,0 +1,11 @@
+version: "3.4"
+
+services:
+  ecommercedb:
+    image: mcr.microsoft.com/mssql/server
+
+  ecommerce.webapi:
+    image: "${DOCKER_REGISTRY-}ecommercewebapi"
+    build:
+      context: .
+      dockerfile: Ecommerce.WebAPI/Dockerfile
